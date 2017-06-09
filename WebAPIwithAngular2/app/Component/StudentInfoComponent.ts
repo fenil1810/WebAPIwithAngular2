@@ -12,7 +12,9 @@ import 'rxjs/add/operator/switchMap';
 @Component({
     selector: 'stuinfo',
     template: ` <div>
+        <a href="jQueryGoogleChart.aspx">Dashboard</a>
         <a (click)="NavigateToCreate()">Create</a>
+        <a (click)="NavigateToStandardList()">Standard List</a>
         <table class="table">
             <tr>
                 <th>Student Name</th>
@@ -55,6 +57,9 @@ export class StudentInfoComponent {
         this._router.navigate(['Create']);
     }
 
+    public NavigateToStandardList() {
+        this._router.navigate(['StandardList']);
+    }
     public getUpdate(stud) {
                 //alert('in');
                 localStorage.setItem("CurrentStudent", JSON.stringify(stud));

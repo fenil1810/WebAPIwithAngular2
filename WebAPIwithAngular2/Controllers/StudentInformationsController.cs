@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPIwithAngular2;
+using WebAPIwithAngular2.Models;
 
 namespace WebAPIwithAngular2.Controllers
 {
@@ -23,9 +24,28 @@ namespace WebAPIwithAngular2.Controllers
             db.Configuration.ProxyCreationEnabled = false;
             return db.StudentInformations;
         }
+        [Route("StandardList")]
+        public IQueryable<StandardInfo> Get()
+        {
+            Model1 db = new Model1();
+            // List<int> standard2 = new List<int>();
+            var standard = db.StudentInformations
+                .Select(x => new StandardInfo
+                {
+                    Standard = x.Standard
+                }).Distinct();
+              
+            return standard;
+        }
+        [Route("ListStudents")]
+        public IQueryable<StudentInformation> GetListStudentInformations(int id)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            return db.StudentInformations.Where(s=>s.Standard==id);
+        }
 
         // GET: api/StudentInformations/5
-       
+
         [ResponseType(typeof(StudentInformation))]
         public IHttpActionResult GetStudentInformation(int id)
         {
@@ -34,7 +54,6 @@ namespace WebAPIwithAngular2.Controllers
             {
                 return NotFound();
             }
-
             return Ok(studentInformation);
         }
 

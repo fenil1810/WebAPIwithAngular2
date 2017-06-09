@@ -11,8 +11,13 @@ import { MarkComponent } from './Component/MarkComponent';
 import { CreateComponent } from './Component/CreateComponent';
 import { CreateMarksComponent } from './Component/CreateMarksComponent';
 import { UpdateComponent } from './Component/UpdateComponent';
+import { ListStudentsComponent } from './Component/ListStudentsComponent';
+import { StandardListComponent } from './Component/StandardListComponent';
 import { UpdateMarksComponent } from './Component/UpdateMarksComponent';
 //import { RouteConfig, ROUTER_PROVIDERS, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+
 
 import { AppComponent } from './app.component';
 
@@ -24,14 +29,17 @@ export const appRoutes: Routes = [
     { path: 'CreateMarks', component: CreateMarksComponent },
     { path: 'Marks', component: MarkComponent },    
     { path: 'Update', component: UpdateComponent },
-    { path: 'UpdateMarks', component: UpdateMarksComponent }
+    { path: 'UpdateMarks', component: UpdateMarksComponent },
+    { path: 'StandardList', component: StandardListComponent },
+    { path: 'ListStudents', component: ListStudentsComponent }
 
 ];
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes),BrowserModule, FormsModule, HttpModule],
+    imports: [RouterModule.forRoot(appRoutes), BrowserModule, FormsModule, HttpModule, Ng2Bs3ModalModule],
     providers: [StudentService,MarksService],
     declarations: [AppComponent, StudentInfoComponent, CreateComponent, MarkComponent,
-        UpdateComponent, UpdateMarksComponent, CreateMarksComponent],
+        UpdateComponent, UpdateMarksComponent, CreateMarksComponent, StandardListComponent,
+        ListStudentsComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

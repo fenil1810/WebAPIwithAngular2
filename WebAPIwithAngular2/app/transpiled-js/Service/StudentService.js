@@ -23,6 +23,20 @@ let StudentService = class StudentService {
             .then(response => this.extractArray(response))
             .catch(this.handleErrorPromise);
     }
+    LoadList(model) {
+        this.id = model.Standard;
+        return this.http.get('/ListStudents?id=' + this.id)
+            .toPromise()
+            .then(response => this.extractArray(response))
+            .catch(this.handleErrorPromise);
+    }
+    LoadStandardData() {
+        return this.http.get('/StandardList')
+            .toPromise()
+            .then(response => this.extractArray(response))
+            .catch(this.handleErrorPromise);
+    }
+    // id: number
     LoadMarks(model) {
         this.id = model.StudentId;
         return this.http.get('Marks?id=' + this.id)

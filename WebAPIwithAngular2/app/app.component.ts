@@ -7,6 +7,8 @@ import { StudentInfoComponent } from './Component/StudentInfoComponent';
 import { CreateComponent } from './Component/CreateComponent';
 import { StudentInformation } from './Models/StudentInformation';
 import { StudentService } from './Service/StudentService';
+import { ModalComponent } from '../node_modules/ng2-bs3-modal/ng2-bs3-modal';
+
 
 @Component({
     selector: 'my-app',

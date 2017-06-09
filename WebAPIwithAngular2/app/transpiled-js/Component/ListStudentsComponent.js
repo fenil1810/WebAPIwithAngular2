@@ -12,12 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const StudentService_1 = require("../Service/StudentService");
 const router_1 = require("@angular/router");
+const StudentInformation_1 = require("../Models/StudentInformation");
 require("rxjs/add/operator/switchMap");
-let StudentInfoComponent = class StudentInfoComponent {
+let ListStudentsComponent = class ListStudentsComponent {
     constructor(studentService, _router) {
         this.studentService = studentService;
         this._router = _router;
         this.students = [];
+        this.student = new StudentInformation_1.StudentInformation();
         this.errorMessage = '';
         this.marks = [];
         this.refresh();
@@ -27,6 +29,11 @@ let StudentInfoComponent = class StudentInfoComponent {
         localStorage.setItem("CurrentStudentMarks", JSON.stringify(stud));
         this._router.navigate(['Marks']);
     }
+    /*
+    public openDialog(stud) {
+      //  $("#dialog1").dialog("open");
+    }
+    */
     AddMarks(stud) {
         localStorage.setItem("AddMark", JSON.stringify(stud));
         this._router.navigate(['CreateMarks']);
@@ -48,39 +55,19 @@ let StudentInfoComponent = class StudentInfoComponent {
         });
     }
     refresh() {
-        this.studentService.LoadData().then(data => {
+        if (localStorage.getItem("CurrentStandard") != null && localStorage.getItem("CurrentStandard") != undefined)
+            this.student = JSON.parse(localStorage.getItem("CurrentStandard"));
+        this.studentService.LoadList(this.student).then(data => {
             this.students = data;
         });
     }
 };
-StudentInfoComponent = __decorate([
+ListStudentsComponent = __decorate([
     core_1.Component({
         selector: 'stuinfo',
-        template: ` <div>
-        <a href="jQueryGoogleChart.aspx">Dashboard</a>
-        <a (click)="NavigateToCreate()">Create</a>
-        <a (click)="NavigateToStandardList()">Standard List</a>
-        <table class="table">
-            <tr>
-                <th>Student Name</th>
-                <th>Gender</th>
-                <th>Standard</th>
-                <th>Section</th>
-            </tr>
-            <tr *ngFor="let stu of students">
-                <td>{{stu.StudentName}}</td>
-                <td>{{stu.Gender}}</td>
-                <td>{{stu.Standard}}</td>
-                <td>{{stu.Section}}</td>
-                <td><a (click)="getUpdate(stu)">Update</a></td>
-                <td><a (click)="getDelete(stu.StudentId)">Delete</a></td>
-                <td><a (click)="getMarks(stu)">View Marks</a></td>
-                <td><a (click)="AddMarks(stu)">Add Marks</a></td>
-            </tr>
-        </table>
-    </div>`,
+        templateUrl: './app/HtmlPage1.html',
     }),
     __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router])
-], StudentInfoComponent);
-exports.StudentInfoComponent = StudentInfoComponent;
-//# sourceMappingURL=StudentInfoComponent.js.map
+], ListStudentsComponent);
+exports.ListStudentsComponent = ListStudentsComponent;
+//# sourceMappingURL=ListStudentsComponent.js.map

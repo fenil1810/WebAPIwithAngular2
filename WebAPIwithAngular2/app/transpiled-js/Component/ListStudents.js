@@ -83,4 +83,4 @@ StudentInfoComponent = __decorate([
     __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router])
 ], StudentInfoComponent);
 exports.StudentInfoComponent = StudentInfoComponent;
-//# sourceMappingURL=StudentInfoComponent.js.map
+//# sourceMappingURL=ListStudents.js.map

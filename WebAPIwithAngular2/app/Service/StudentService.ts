@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { AppComponent } from '../app.component';
 import { Mark } from '../Models/Mark';
 import { StudentInformation } from '../Models/StudentInformation';
+import { StandardList } from '../Models/StandardList';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
@@ -20,7 +21,21 @@ export class StudentService {
             .then(response => this.extractArray(response))
             .catch(this.handleErrorPromise);
     }
-    id: number
+    id:number
+    LoadList(model): Promise<StudentInformation[]> {
+        this.id = model.Standard;
+        return this.http.get('/ListStudents?id='+this.id)
+            .toPromise()
+            .then(response => this.extractArray(response))
+            .catch(this.handleErrorPromise);
+    }
+    LoadStandardData(): Promise<StandardList[]> {
+        return this.http.get('/StandardList')
+            .toPromise()
+            .then(response => this.extractArray(response))
+            .catch(this.handleErrorPromise);
+    }
+   // id: number
     LoadMarks(model): Promise<Mark[]> {
         this.id= model.StudentId;
         return this.http.get('Marks?id=' + this.id)
