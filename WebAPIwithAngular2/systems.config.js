@@ -25,7 +25,9 @@
             'rxjs': 'npm:rxjs',
             'angular2-in-memory-web-api': 'npm:angular2-in-memory-web-api',
             'ng2-bs3-modal': 'npm:ng2-bs3-modal',
-            
+            'angular2-google-chart': 'npm:angular2-google-chart',
+            'ng2-charts': 'npm:ng2-charts',
+            'chart.js':'npm:chart.js',
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -46,6 +48,18 @@
             },
             'ng2-bs3-modal': {
                 main: './ng2-bs3-modal.js',
+                defaultExtension: 'js'
+            },
+            'angular2-google-chart': {
+                main: './angular2-google-chart.directive.js',
+                defaultExtension: 'js'
+            },
+            'ng2-charts': {
+                main: './ng2-charts.js',
+                defaultExtension: 'js'
+            },
+            'chart.js': {
+                main: './dist/Chart.js',
                 defaultExtension: 'js'
             }
         }

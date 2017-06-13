@@ -31,7 +31,7 @@ namespace WebAPIwithAngular2.Controllers
             foreach (var v in query)
             {
                 stuDetails studetails = new stuDetails();
-                studetails.Section = v.Section.ToString();
+                studetails.Section = "Section "+v.Section.ToString();
                 studetails.Total = v.Count;
                 dataList.Add(studetails);
                 Console.WriteLine("Value = {0}, Count = {1}", v.Section, v.Count);
@@ -61,10 +61,10 @@ namespace WebAPIwithAngular2.Controllers
             return dataList2;
         }
         [Route("api/MarksData")]
-        public List<MarksDetails> GetMarksData()
+        public List<MarksDetails> GetMarksData(int id)
         {
             Model1 db = new Model1();
-            var query = from s in db.Marks.Where(x=>x.StudentId==1)
+            var query = from s in db.Marks.Where(x=>x.StudentId==id)
                         select new { SubjectName = s.MASTER.SubjectName, MarkofSubject = s.MarkofSubject };
             List<MarksDetails> dataList3 = new List<MarksDetails>();
             foreach(var v in query)
@@ -75,6 +75,28 @@ namespace WebAPIwithAngular2.Controllers
                 dataList3.Add(marksDetails);
             }
             return dataList3;
+        }
+        [Route("api/ClassResult")]
+        public List<ClassResultDetails> GetClassResult(int id)
+        {
+            Model1 db = new Model1();
+            var query1 = from s in db.Marks.Where(x => x.StudentInformation.Standard == id && x.MarkofSubject >= 40)
+                         select new { StudentId = s.StudentId, MarkofSubject = s.MarkofSubject };
+            int PassCount = query1.GroupBy(x => x.StudentId).Select(x =>x.FirstOrDefault()).Count();
+            var query2 = from s in db.Marks.Where(x=>x.StudentInformation.Standard==id && x.MarkofSubject<40)
+                        select new { StudentId=s.StudentId, MarkofSubject = s.MarkofSubject };
+            int FailCount=query2.GroupBy(x=>x.StudentId).Select(x=>x.FirstOrDefault()).Count();
+            List<ClassResultDetails> dataList4 = new List<ClassResultDetails>();
+            ClassResultDetails classResultDetails = new ClassResultDetails();
+            classResultDetails.Result = "Pass";
+            classResultDetails.Total = PassCount;
+            dataList4.Add(classResultDetails);
+            ClassResultDetails classResultDetails2 = new ClassResultDetails();
+            classResultDetails2.Result = "Fail";
+            classResultDetails2.Total = FailCount;
+            dataList4.Add(classResultDetails2);
+
+            return dataList4;
         }
         public class stuDetails
         {
@@ -89,6 +111,11 @@ namespace WebAPIwithAngular2.Controllers
         public class MarksDetails{
             public string SubjectName { get; set; }
             public int MarkofSubject { get; set; }
+        }
+        public class ClassResultDetails
+        {
+            public string Result { get; set; }
+            public int Total { get; set; }
         }
     }
 }

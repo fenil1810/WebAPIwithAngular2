@@ -18,22 +18,43 @@ let ListStudentsComponent = class ListStudentsComponent {
     constructor(studentService, _router) {
         this.studentService = studentService;
         this._router = _router;
+        this.pie_ChartData = [];
+        this.pie_ChartOptions = {};
+        this.bar_ChartData = [];
+        this.bar_ChartOptions = {};
         this.students = [];
         this.student = new StudentInformation_1.StudentInformation();
         this.errorMessage = '';
         this.marks = [];
+        //        this.getChartdata();
+        this.visible = false;
         this.refresh();
         // this.getData();
+    }
+    getChartdata(stud) {
+        var list = [];
+        this.visible = false;
+        var data3 = [];
+        this.bar_ChartData = [['Subject', 'Marks']];
+        this.studentService.getbarChart(stud).then(data4 => {
+            for (var i = 0; i < data4.length; i++) {
+                data3 = [];
+                data3 = [data4[i].SubjectName, data4[i].MarkofSubject];
+                this.bar_ChartData.push(data3);
+            }
+            this.bar_ChartOptions = {
+                title: 'Marks',
+                width: 500,
+                height: 500
+                // color:'green'
+            };
+            this.visible = true;
+        });
     }
     getMarks(stud) {
         localStorage.setItem("CurrentStudentMarks", JSON.stringify(stud));
         this._router.navigate(['Marks']);
     }
-    /*
-    public openDialog(stud) {
-      //  $("#dialog1").dialog("open");
-    }
-    */
     AddMarks(stud) {
         localStorage.setItem("AddMark", JSON.stringify(stud));
         this._router.navigate(['CreateMarks']);
@@ -65,7 +86,7 @@ let ListStudentsComponent = class ListStudentsComponent {
 ListStudentsComponent = __decorate([
     core_1.Component({
         selector: 'stuinfo',
-        templateUrl: './app/HtmlPage1.html',
+        templateUrl: '../app/HtmlPage1.html',
     }),
     __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router])
 ], ListStudentsComponent);

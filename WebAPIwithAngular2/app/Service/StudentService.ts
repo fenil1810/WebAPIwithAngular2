@@ -3,6 +3,9 @@ import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Observable, Subject } from 'rxjs/Rx';
 import { AppComponent } from '../app.component';
 import { Mark } from '../Models/Mark';
+import { Section } from '../Models/Section';
+import { MarkChart } from '../Models/MarkChart';
+import { ResultInfo } from '../Models/ResultInfo';
 import { StudentInformation } from '../Models/StudentInformation';
 import { StandardList } from '../Models/StandardList';
 import 'rxjs/add/operator/toPromise';
@@ -17,6 +20,28 @@ export class StudentService {
 
     LoadData(): Promise<StudentInformation[]> {
         return this.http.get('/Student')
+            .toPromise()
+            .then(response => this.extractArray(response))
+            .catch(this.handleErrorPromise);
+    }
+    calcResult(model): Promise<ResultInfo[]>{
+        this.id = model.Standard;
+        return this.http.get('/api/ClassResult?id=' + this.id)
+            .toPromise()
+            .then(response => this.extractArray(response))
+            .catch(this.handleErrorPromise);
+
+    }
+    getChart(): Promise<Section[]> {
+        return this.http.get('/api/GetChartData')
+            .toPromise()
+            .then(response => this.extractArray(response))
+            .catch(this.handleErrorPromise);
+    }
+
+    getbarChart(model): Promise<MarkChart[]> {
+        this.id = model.StudentId;
+        return this.http.get('/api/MarksData?id=' + this.id)
             .toPromise()
             .then(response => this.extractArray(response))
             .catch(this.handleErrorPromise);

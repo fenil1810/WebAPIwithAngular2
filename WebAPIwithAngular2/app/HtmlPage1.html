@@ -3,60 +3,6 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
-    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
-          rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-    <script src="http://www.google.com/jsapi" type="text/javascript"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" ></script>
-
-    <style>
-        .ui-widget-header, .ui-state-default, ui-button {
-            background: #b9cd6d;
-            border: 1px solid #b9cd6d;
-            color: #FFFFFF;
-            font-weight: bold;
-        }
-    </style>
-    <title></title>
-    <script type="text/javascript">
-
-        google.load('visualization', '1', { packages: ['corechart'], "callback": drawChart });
-    </script>
-    <script type="text/javascript">
-
-        function drawchart() {
-            $.ajax({
-                type: 'GET',
-                dataType: 'json',
-                contentType: 'application/json',
-                url: '../api/GetChartData',
-
-                success:
-                function (response) {
-                    console.log("success");
-                    drawsectionchart(response);
-                },
-
-                error: function (error) {
-                    console.log(error);
-                    alert("Error loading data!");
-                }
-            });
-        }
-        function drawsectionchart(dataValues) {
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Column Name');
-            data.addColumn('number', 'Column Value');
-            for (var i = 0; i < dataValues.length; i++) {
-                data.addRow([dataValues[i].Section, dataValues[i].Total]);
-            }
-            new google.visualization.PieChart(document.getElementById('myChartDiv')).
-            draw(data, { title: "Sections" });
-        }
-    </script>
 </head>
 <body>
     <div>
@@ -81,22 +27,22 @@
                 <td><a (click)="AddMarks(stu)">Add Marks</a></td>
                 <td>
                     <div id="dialog-1"></div>
-                    <button id="opener" onclick="drawchart()" data-toggle="modal" data-target="#myModal">Result</button>
+                    <button id="opener" data-toggle="modal" data-target="#myModal" (click)="getChartdata(stu)">Result</button>
                 </td>
             </tr>
         </table>
-
     </div>
-</body>
+  </body>
 </html>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button"  class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="chart" id="myChartDiv"></div>
+                <h2>  Column Chart.</h2>
+                <div id="bar_chart" *ngIf="visible" [chartData]="bar_ChartData" [chartOptions]="bar_ChartOptions" chartType="ColumnChart" GoogleChart>loading...</div>
             </div>
             <div class="modal-footer">
                 <div id='png'></div>

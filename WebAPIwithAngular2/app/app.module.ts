@@ -14,8 +14,10 @@ import { UpdateComponent } from './Component/UpdateComponent';
 import { ListStudentsComponent } from './Component/ListStudentsComponent';
 import { StandardListComponent } from './Component/StandardListComponent';
 import { UpdateMarksComponent } from './Component/UpdateMarksComponent';
+import { ChartsModule } from 'ng2-charts';
 //import { RouteConfig, ROUTER_PROVIDERS, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { GoogleChart } from 'angular2-google-chart/directives/angular2-google-chart.directive';
 
 
 
@@ -35,11 +37,11 @@ export const appRoutes: Routes = [
 
 ];
 @NgModule({
-    imports: [RouterModule.forRoot(appRoutes), BrowserModule, FormsModule, HttpModule, Ng2Bs3ModalModule],
+    imports: [RouterModule.forRoot(appRoutes), ChartsModule, BrowserModule, FormsModule, HttpModule, Ng2Bs3ModalModule],
     providers: [StudentService,MarksService],
     declarations: [AppComponent, StudentInfoComponent, CreateComponent, MarkComponent,
         UpdateComponent, UpdateMarksComponent, CreateMarksComponent, StandardListComponent,
-        ListStudentsComponent],
+        ListStudentsComponent,GoogleChart],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
