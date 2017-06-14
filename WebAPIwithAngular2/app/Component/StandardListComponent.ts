@@ -38,7 +38,7 @@ import 'rxjs/add/operator/switchMap';
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                     <h2>  Pie Chart</h2>
+                     <h2> Pie Chart</h2>
                      <div id="pie_chart" *ngIf="visible" [chartData]="pie_ChartData" [chartOptions] = "pie_ChartOptions" chartType="PieChart" GoogleChart>Loading..</div>
    
                 </div>

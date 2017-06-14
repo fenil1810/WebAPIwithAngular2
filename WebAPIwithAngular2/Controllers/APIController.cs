@@ -12,6 +12,7 @@ using System.Text;
 using System.Web.Http.Description;
 using WebAPIwithAngular2;
 using static WebAPIwithAngular2.jQueryGoogleChart;
+using System.Data.SqlClient;
 
 namespace WebAPIwithAngular2.Controllers
 {
@@ -61,13 +62,20 @@ namespace WebAPIwithAngular2.Controllers
             return dataList2;
         }
         [Route("api/MarksData")]
-        public List<MarksDetails> GetMarksData(int id)
+        public async System.Threading.Tasks.Task<List<MarksDetails>> GetMarksData(int id)
         {
-            Model1 db = new Model1();
-            var query = from s in db.Marks.Where(x=>x.StudentId==id)
-                        select new { SubjectName = s.MASTER.SubjectName, MarkofSubject = s.MarkofSubject };
+            /* Model1 db = new Model1();
+             var query = from s in db.Marks.Where(x=>x.StudentId==id)
+                         select new { SubjectName = s.MASTER.SubjectName, MarkofSubject = s.MarkofSubject };
+             */
+            List<MarksDetails> query;
+            using (var context = new Model1())
+            {
+                SqlParameter param1 = new SqlParameter("@StuId", id);
+                query = await context.Database.SqlQuery<MarksDetails>("StudentMarks @StuId", param1).ToListAsync();
+            }
             List<MarksDetails> dataList3 = new List<MarksDetails>();
-            foreach(var v in query)
+            foreach (var v in query)
             {
                 MarksDetails marksDetails = new MarksDetails();
                 marksDetails.SubjectName = v.SubjectName.ToString();
@@ -77,15 +85,28 @@ namespace WebAPIwithAngular2.Controllers
             return dataList3;
         }
         [Route("api/ClassResult")]
-        public List<ClassResultDetails> GetClassResult(int id)
+        public async System.Threading.Tasks.Task<List<ClassResultDetails>> GetClassResult(int id)
         {
-            Model1 db = new Model1();
+            /*Model1 db = new Model1();
             var query1 = from s in db.Marks.Where(x => x.StudentInformation.Standard == id && x.MarkofSubject >= 40)
                          select new { StudentId = s.StudentId, MarkofSubject = s.MarkofSubject };
             int PassCount = query1.GroupBy(x => x.StudentId).Select(x =>x.FirstOrDefault()).Count();
             var query2 = from s in db.Marks.Where(x=>x.StudentInformation.Standard==id && x.MarkofSubject<40)
                         select new { StudentId=s.StudentId, MarkofSubject = s.MarkofSubject };
             int FailCount=query2.GroupBy(x=>x.StudentId).Select(x=>x.FirstOrDefault()).Count();
+            */
+            int FailCount,PassCount,TotalCount;
+            using (var context = new Model1())
+            {
+                SqlParameter param1 = new SqlParameter("@std", id);
+                FailCount = await context.Database.SqlQuery<int>("FailCount @std", param1).SingleAsync();
+            }
+            using (var context = new Model1())
+            {
+                SqlParameter param1 = new SqlParameter("@std", id);
+                TotalCount = await context.Database.SqlQuery<int>("PassCount @std", param1).SingleAsync();
+            }
+            PassCount = TotalCount - FailCount;
             List<ClassResultDetails> dataList4 = new List<ClassResultDetails>();
             ClassResultDetails classResultDetails = new ClassResultDetails();
             classResultDetails.Result = "Pass";

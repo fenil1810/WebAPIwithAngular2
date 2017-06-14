@@ -35,18 +35,21 @@ let ListStudentsComponent = class ListStudentsComponent {
         var list = [];
         this.visible = false;
         var data3 = [];
-        this.bar_ChartData = [['Subject', 'Marks']];
+        this.bar_ChartData = [['Subject', 'Marks', { role: 'style' }]];
         this.studentService.getbarChart(stud).then(data4 => {
             for (var i = 0; i < data4.length; i++) {
                 data3 = [];
-                data3 = [data4[i].SubjectName, data4[i].MarkofSubject];
+                if (data4[i].MarkofSubject > 40)
+                    data3 = [data4[i].SubjectName, data4[i].MarkofSubject, 'green'];
+                else
+                    data3 = [data4[i].SubjectName, data4[i].MarkofSubject, 'red'];
                 this.bar_ChartData.push(data3);
             }
             this.bar_ChartOptions = {
                 title: 'Marks',
                 width: 500,
-                height: 500
-                // color:'green'
+                height: 500,
+                colors: ['green'],
             };
             this.visible = true;
         });
