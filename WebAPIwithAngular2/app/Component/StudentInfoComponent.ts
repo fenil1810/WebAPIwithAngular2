@@ -15,6 +15,8 @@ import 'rxjs/add/operator/switchMap';
         <a href="jQueryGoogleChart.aspx">Dashboard</a>
         <a (click)="NavigateToCreate()">Create</a>
         <a (click)="NavigateToStandardList()">Standard List</a>
+        <a (click)="NavigateToRegister()">Register</a>
+
         <table class="table">
             <tr>
                 <th>Student Name</th>
@@ -59,6 +61,10 @@ export class StudentInfoComponent {
 
     public NavigateToStandardList() {
         this._router.navigate(['StandardList']);
+    }
+
+    public NavigateToRegister() {
+        this._router.navigate(['Register']);
     }
     public getUpdate(stud) {
                 //alert('in');

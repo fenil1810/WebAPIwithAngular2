@@ -15,6 +15,8 @@ import { ListStudentsComponent } from './Component/ListStudentsComponent';
 import { StandardListComponent } from './Component/StandardListComponent';
 import { UpdateMarksComponent } from './Component/UpdateMarksComponent';
 import { ChartsModule } from 'ng2-charts';
+import { AccountService } from './Service/AccountService';
+import { RegisterComponent } from './Component/RegisterComponent';
 //import { RouteConfig, ROUTER_PROVIDERS, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { GoogleChart } from 'angular2-google-chart/directives/angular2-google-chart.directive';
@@ -33,15 +35,15 @@ export const appRoutes: Routes = [
     { path: 'Update', component: UpdateComponent },
     { path: 'UpdateMarks', component: UpdateMarksComponent },
     { path: 'StandardList', component: StandardListComponent },
-    { path: 'ListStudents', component: ListStudentsComponent }
-
+    { path: 'ListStudents', component: ListStudentsComponent },
+    { path: 'Register', component: RegisterComponent }
 ];
 @NgModule({
     imports: [RouterModule.forRoot(appRoutes), ChartsModule, BrowserModule, FormsModule, HttpModule, Ng2Bs3ModalModule],
-    providers: [StudentService,MarksService],
+    providers: [StudentService, MarksService, AccountService],
     declarations: [AppComponent, StudentInfoComponent, CreateComponent, MarkComponent,
         UpdateComponent, UpdateMarksComponent, CreateMarksComponent, StandardListComponent,
-        ListStudentsComponent,GoogleChart],
+        ListStudentsComponent, GoogleChart, RegisterComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

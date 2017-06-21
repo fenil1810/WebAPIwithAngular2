@@ -16,6 +16,13 @@ using Microsoft.Owin.Security.OAuth;
 using WebAPIwithAngular2.Models;
 using WebAPIwithAngular2.Providers;
 using WebAPIwithAngular2.Results;
+using System.Net;
+using System.IdentityModel.Tokens;
+using System.Security.Principal;
+using System.Threading;
+using JWT;
+using System.Linq;
+using System.Configuration;
 
 namespace WebAPIwithAngular2.Controllers
 {
@@ -25,7 +32,6 @@ namespace WebAPIwithAngular2.Controllers
     {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
-
         public AccountController()
         {
         }
@@ -50,7 +56,7 @@ namespace WebAPIwithAngular2.Controllers
         }
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
-
+        
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
@@ -66,6 +72,25 @@ namespace WebAPIwithAngular2.Controllers
             };
         }
 
+        /*
+        [Route("Login")]
+        public Task<IHttpActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+                model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }*/
         // POST api/Account/Logout
         [Route("Logout")]
         public IHttpActionResult Logout()
@@ -115,6 +140,7 @@ namespace WebAPIwithAngular2.Controllers
         }
 
         // POST api/Account/ChangePassword
+        [Authorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -318,9 +344,12 @@ namespace WebAPIwithAngular2.Controllers
             return logins;
         }
 
+
+
         // POST api/Account/Register
         [AllowAnonymous]
-        [Route("Register")]
+        [HttpPost]
+        [Route("RegisterUser")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -336,7 +365,6 @@ namespace WebAPIwithAngular2.Controllers
             {
                 return GetErrorResult(result);
             }
-
             return Ok();
         }
 

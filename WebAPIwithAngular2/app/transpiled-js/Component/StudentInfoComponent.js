@@ -37,6 +37,9 @@ let StudentInfoComponent = class StudentInfoComponent {
     NavigateToStandardList() {
         this._router.navigate(['StandardList']);
     }
+    NavigateToRegister() {
+        this._router.navigate(['Register']);
+    }
     getUpdate(stud) {
         //alert('in');
         localStorage.setItem("CurrentStudent", JSON.stringify(stud));
@@ -60,6 +63,8 @@ StudentInfoComponent = __decorate([
         <a href="jQueryGoogleChart.aspx">Dashboard</a>
         <a (click)="NavigateToCreate()">Create</a>
         <a (click)="NavigateToStandardList()">Standard List</a>
+        <a (click)="NavigateToRegister()">Register</a>
+
         <table class="table">
             <tr>
                 <th>Student Name</th>

@@ -6,6 +6,7 @@ using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using System.Net.Http.Headers;
+using WebAPIwithAngular2.App_Start;
 
 namespace WebAPIwithAngular2
 {
@@ -24,7 +25,8 @@ namespace WebAPIwithAngular2
             //to get json output from web api instead of xml
             config.Formatters.JsonFormatter.SupportedMediaTypes
             .Add(new MediaTypeHeaderValue("text/html"));
-            
+         //   config.Formatters.Add(new BrowserJsonFormatter());
+
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

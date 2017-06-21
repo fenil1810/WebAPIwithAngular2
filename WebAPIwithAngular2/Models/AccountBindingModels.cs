@@ -31,7 +31,21 @@ namespace WebAPIwithAngular2.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+    public class LoginViewModel
+    {
+        [Required]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+        [Display(Name = "Authenticated")]
+        public bool Authenticated { get; set; }
+        [Display(Name = "Token")]
+        public string Token { get; set; }
 
+    }
     public class RegisterBindingModel
     {
         [Required]

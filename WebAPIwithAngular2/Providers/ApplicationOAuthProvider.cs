@@ -56,7 +56,7 @@ namespace WebAPIwithAngular2.Providers
             {
                 context.AdditionalResponseParameters.Add(property.Key, property.Value);
             }
-
+            
             return Task.FromResult<object>(null);
         }
 
