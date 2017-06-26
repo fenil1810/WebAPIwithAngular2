@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const router_1 = require("@angular/router");
+//import { FormsModule } from '@angular/forms';
 let AppComponent = class AppComponent {
     constructor(_router) {
         this._router = _router;

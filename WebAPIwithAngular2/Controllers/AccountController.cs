@@ -23,6 +23,7 @@ using System.Threading;
 using JWT;
 using System.Linq;
 using System.Configuration;
+using WebAPIwithAngular2.Filters;
 
 namespace WebAPIwithAngular2.Controllers
 {
@@ -140,7 +141,7 @@ namespace WebAPIwithAngular2.Controllers
         }
 
         // POST api/Account/ChangePassword
-        [Authorize]
+        [JwtAuthentication]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -350,11 +351,11 @@ namespace WebAPIwithAngular2.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("RegisterUser")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        public async Task<string> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return new HttpResponseException(HttpStatusCode.BadRequest).ToString();
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
@@ -363,9 +364,13 @@ namespace WebAPIwithAngular2.Controllers
 
             if (!result.Succeeded)
             {
-                return GetErrorResult(result);
+                return "Error"; 
+                    //GetErrorResult(result);
             }
-            return Ok();
+            string s= JwtManager.GenerateToken(model.Email)+"    Username:"+model.Email;
+            return s;
+                
+            // return Ok();
         }
 
         // POST api/Account/RegisterExternal

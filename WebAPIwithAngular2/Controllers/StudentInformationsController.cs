@@ -13,6 +13,7 @@ using WebAPIwithAngular2.Models;
 
 namespace WebAPIwithAngular2.Controllers
 {
+    [AllowAnonymous]
     public class StudentInformationsController : ApiController
     {
         private Model1 db = new Model1();

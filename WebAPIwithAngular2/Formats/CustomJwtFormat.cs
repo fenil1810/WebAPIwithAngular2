@@ -1,17 +1,18 @@
 ﻿using Microsoft.Owin.Security;
 using System;
 using System.Configuration;
-using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Web;
 using Microsoft.Owin.Security.DataHandler.Encoder;
+using System.IdentityModel.Tokens.Jwt;
 using Thinktecture.IdentityModel.Tokens;
 
 namespace WebAPIwithAngular2.Formats
 {
     public class CustomJwtFormat : ISecureDataFormat<AuthenticationTicket>
     {
-        private readonly string _issuer = string.Empty;
+        private static readonly byte[] _secret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["secret"]);
+        private readonly string _issuer;
 
         public CustomJwtFormat(string issuer)
         {
@@ -22,29 +23,16 @@ namespace WebAPIwithAngular2.Formats
         {
             if (data == null)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             }
 
-            string audienceId = ConfigurationManager.AppSettings["as:AudienceId"];
-
-            string symmetricKeyAsBase64 = ConfigurationManager.AppSettings["as:AudienceSecret"];
-
-            var keyByteArray = TextEncodings.Base64Url.Decode(symmetricKeyAsBase64);
-
-            var signingKey = new HmacSigningCredentials(keyByteArray);
-
+            var signingKey = new HmacSigningCredentials(_secret);
             var issued = data.Properties.IssuedUtc;
-
             var expires = data.Properties.ExpiresUtc;
 
-            var token = new JwtSecurityToken(_issuer, audienceId, data.Identity.Claims,
-            issued.Value.UtcDateTime, expires.Value.UtcDateTime, signingKey);
-
-            var handler = new JwtSecurityTokenHandler();
-
-            var jwt = handler.WriteToken(token);
-
-            return jwt;
+            return new JwtSecurityTokenHandler()
+            .WriteToken(new JwtSecurityToken(_issuer, null, data.Identity.Claims,
+            issued.Value.UtcDateTime, expires.Value.UtcDateTime, signingKey));
         }
 
         public AuthenticationTicket Unprotect(string protectedText)

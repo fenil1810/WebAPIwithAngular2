@@ -6,7 +6,7 @@ using Owin;
 using Microsoft.Owin.Security.OAuth;
 using WebAPIwithAngular2.Providers;
 using System.Web.Http;
-using WebAPIwithAngular2.Formats;
+//using WebAPIwithAngular2.Formats;
 using WebAPIwithAngular2.Models;
 using System.Configuration;
 using Microsoft.Owin.Security.DataHandler.Encoder;
@@ -23,17 +23,17 @@ namespace WebAPIwithAngular2
         {
             ConfigureAuth(app);
 
-            HttpConfiguration config = new HttpConfiguration();
+          //  HttpConfiguration config = new HttpConfiguration();
             
             //config.MapHttpAttributeRoutes();
 
-            ConfigureOAuthTokenGeneration(app);
+         //   ConfigureOAuthTokenGeneration(app);
             //ConfigureOAuthTokenConsumption(app);
-            app.UseWebApi(config);
+         //   app.UseWebApi(config);
 
 
         }
-
+/*
         private void ConfigureOAuthTokenGeneration(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
@@ -53,7 +53,7 @@ namespace WebAPIwithAngular2
             // OAuth 2.0 Bearer Access Token Generation
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
         }
-    /*    private void ConfigureOAuthTokenConsumption(IAppBuilder app)
+        private void ConfigureOAuthTokenConsumption(IAppBuilder app)
         {
 
             var issuer = "http://localhost:49524/";

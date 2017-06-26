@@ -13,45 +13,43 @@ namespace WebAPIwithAngular2.Providers
 {
     public class CustomOAuthProvider : OAuthAuthorizationServerProvider
     {
+        public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
+        {
+            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
-        public override Task ValidateClientAuthentication
-        (OAuthValidateClientAuthenticationContext context)
+            var user = context.OwinContext.Get<ApplicationDbContext>().Users.FirstOrDefault(u => u.UserName == context.UserName);
+            if (!context.OwinContext.Get<BookUserManager>().CheckPassword(user, context.Password))
+            {
+                context.SetError("invalid_grant", "The user name or password is incorrect");
+                context.Rejected();
+                return Task.FromResult<object>(null);
+            }
+
+            var ticket = new AuthenticationTicket(SetClaimsIdentity(context, user), new AuthenticationProperties());
+            context.Validated(ticket);
+
+            return Task.FromResult<object>(null);
+        }
+
+        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
             context.Validated();
             return Task.FromResult<object>(null);
         }
 
-        public override async Task GrantResourceOwnerCredentials
-        (OAuthGrantResourceOwnerCredentialsContext context)
+        private static ClaimsIdentity SetClaimsIdentity(OAuthGrantResourceOwnerCredentialsContext context, IdentityUser user)
         {
-            var allowedOrigin = "*";
+            var identity = new ClaimsIdentity("JWT");
+            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+            identity.AddClaim(new Claim("sub", context.UserName));
 
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin",
-        new[] { allowedOrigin });
-
-            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
-
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
-
-            if (user == null)
+            var userRoles = context.OwinContext.Get<BookUserManager>().GetRoles(user.Id);
+            foreach (var role in userRoles)
             {
-                context.SetError("invalid_grant", "The user name or password is incorrect.");
-                return;
+                identity.AddClaim(new Claim(ClaimTypes.Role, role));
             }
 
-            if (!user.EmailConfirmed)
-            {
-                context.SetError("invalid_grant", "User did not confirm email.");
-                return;
-            }
-
-            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, "JWT");
-           // oAuthIdentity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
-            oAuthIdentity.AddClaim(new Claim("UserName", context.UserName));
-
-            var ticket = new AuthenticationTicket(oAuthIdentity, null);
-
-            context.Validated(ticket);
+            return identity;
         }
     }
 }
