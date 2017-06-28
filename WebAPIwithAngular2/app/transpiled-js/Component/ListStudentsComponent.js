@@ -13,9 +13,10 @@ const core_1 = require("@angular/core");
 const StudentService_1 = require("../Service/StudentService");
 const router_1 = require("@angular/router");
 const StudentInformation_1 = require("../Models/StudentInformation");
+const common_1 = require("@angular/common");
 require("rxjs/add/operator/switchMap");
 let ListStudentsComponent = class ListStudentsComponent {
-    constructor(studentService, _router) {
+    constructor(studentService, _router, location) {
         this.studentService = studentService;
         this._router = _router;
         this.pie_ChartData = [];
@@ -29,6 +30,7 @@ let ListStudentsComponent = class ListStudentsComponent {
         //        this.getChartdata();
         this.visible = false;
         this.refresh();
+        this.location = location;
         // this.getData();
     }
     getChartdata(stud) {
@@ -89,9 +91,10 @@ let ListStudentsComponent = class ListStudentsComponent {
 ListStudentsComponent = __decorate([
     core_1.Component({
         selector: 'stuinfo',
+        providers: [common_1.Location, { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
         templateUrl: '../app/HtmlPage1.html',
     }),
-    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router])
+    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router, common_1.Location])
 ], ListStudentsComponent);
 exports.ListStudentsComponent = ListStudentsComponent;
 //# sourceMappingURL=ListStudentsComponent.js.map

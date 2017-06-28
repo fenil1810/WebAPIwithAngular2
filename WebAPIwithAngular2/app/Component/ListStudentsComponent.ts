@@ -10,6 +10,7 @@ import { RouterModule, Routes, ActivatedRoute, Router } from '@angular/router';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { StudentInformation } from '../Models/StudentInformation';
 import { GoogleChartComponent } from './GoogleChartComponent';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -17,6 +18,7 @@ import 'rxjs/add/operator/switchMap';
 
 @Component({
     selector: 'stuinfo',
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     templateUrl:'../app/HtmlPage1.html',
 
 })
@@ -27,10 +29,12 @@ export class ListStudentsComponent{
     public bar_ChartData: any = [];
     public bar_ChartOptions: any = {};
     visible: boolean;
-    constructor(private studentService: StudentService, private _router: Router) {
+    location: Location;
+    constructor(private studentService: StudentService, private _router: Router, location: Location) {
 //        this.getChartdata();
         this.visible = false;
         this.refresh();
+        this.location = location;
       
         // this.getData();
     }

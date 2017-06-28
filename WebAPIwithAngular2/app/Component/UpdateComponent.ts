@@ -7,10 +7,12 @@ import { RouterModule, Routes, ActivatedRoute,Router } from '@angular/router';
 import { StudentInformation } from '../Models/StudentInformation';
 import { StudentInfoComponent } from './StudentInfoComponent';
 import 'rxjs/add/operator/switchMap';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
 
 
 @Component({
     selector: 'update',
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     template: ` <div>
         <table class="table">
          	<tr>
@@ -44,9 +46,11 @@ export class UpdateComponent {
     private students: StudentInformation[] = [];
     private errorMessage: any = '';
     public student: StudentInformation = new StudentInformation();
-    constructor(private studentService: StudentService,private _router:Router) {
+    location: Location;
+    constructor(location: Location,private studentService: StudentService,private _router:Router) {
         if (localStorage.getItem("CurrentStudent") != null && localStorage.getItem("CurrentStudent") != undefined)
-        this.student = JSON.parse(localStorage.getItem("CurrentStudent"));
+            this.student = JSON.parse(localStorage.getItem("CurrentStudent"));
+        this.location = location;
     }
     refresh() {
         this.studentService.LoadData().then(data => {

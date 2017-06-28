@@ -10,10 +10,12 @@ import { RouterModule, Routes, ActivatedRoute, Router } from '@angular/router';
 import { StudentInformation } from '../Models/StudentInformation';
 import { StudentInfoComponent } from './StudentInfoComponent';
 import 'rxjs/add/operator/switchMap';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
 
 
 @Component({
     selector: 'create',
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     template: ` <div>
         <table class="table">         	
 	      <tr>
@@ -44,8 +46,10 @@ export class CreateMarksComponent {
     private errorMessage: any = '';
     public student: StudentInformation = new StudentInformation();
     public marks: Mark = new Mark();
-    public master: MASTER[] =[];
-    constructor(private studentService: StudentService, private _router: Router, private marksService: MarksService) {
+    public master: MASTER[] = [];
+    location: Location;
+    constructor(private studentService: StudentService, private _router: Router, private marksService: MarksService, location: Location) {
+        this.location = location;
         if (localStorage.getItem("AddMark") != null && localStorage.getItem("AddMark") != undefined)
             this.student = JSON.parse(localStorage.getItem("AddMark"));
         this.getSubjects();

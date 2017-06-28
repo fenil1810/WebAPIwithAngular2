@@ -20,7 +20,8 @@ import { RegisterComponent } from './Component/RegisterComponent';
 //import { RouteConfig, ROUTER_PROVIDERS, ROUTER_DIRECTIVES } from '@angular/router-deprecated';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { GoogleChart } from 'angular2-google-chart/directives/angular2-google-chart.directive';
-
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
+import { Component } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
@@ -40,7 +41,7 @@ export const appRoutes: Routes = [
 ];
 @NgModule({
     imports: [RouterModule.forRoot(appRoutes), ChartsModule, BrowserModule, FormsModule, HttpModule, Ng2Bs3ModalModule],
-    providers: [StudentService, MarksService, AccountService],
+    providers: [StudentService, MarksService, AccountService, Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     declarations: [AppComponent, StudentInfoComponent, CreateComponent, MarkComponent,
         UpdateComponent, UpdateMarksComponent, CreateMarksComponent, StandardListComponent,
         ListStudentsComponent, GoogleChart, RegisterComponent],

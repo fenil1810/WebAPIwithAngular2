@@ -13,11 +13,13 @@ const core_1 = require("@angular/core");
 const router_1 = require("@angular/router");
 const AccountService_1 = require("../Service/AccountService");
 require("rxjs/add/operator/switchMap");
+const common_1 = require("@angular/common");
 let RegisterComponent = class RegisterComponent {
-    constructor(accountService, _router) {
+    constructor(location, accountService, _router) {
         this.accountService = accountService;
         this._router = _router;
         this.user = [];
+        this.location = location;
     } /*
     refresh() {
         this.accountService.LoadData().then(data => {
@@ -35,6 +37,7 @@ let RegisterComponent = class RegisterComponent {
 RegisterComponent = __decorate([
     core_1.Component({
         selector: 'register',
+        providers: [common_1.Location, { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
         template: ` <div>
         <table class="table">
          	<tr>
@@ -58,7 +61,7 @@ RegisterComponent = __decorate([
     <button (click)="Add(user)">Register</button>
     </div>`,
     }),
-    __metadata("design:paramtypes", [AccountService_1.AccountService, router_1.Router])
+    __metadata("design:paramtypes", [common_1.Location, AccountService_1.AccountService, router_1.Router])
 ], RegisterComponent);
 exports.RegisterComponent = RegisterComponent;
 //# sourceMappingURL=RegisterComponent.js.map

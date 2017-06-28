@@ -16,8 +16,9 @@ const Mark_1 = require("../Models/Mark");
 const router_1 = require("@angular/router");
 const StudentInformation_1 = require("../Models/StudentInformation");
 require("rxjs/add/operator/switchMap");
+const common_1 = require("@angular/common");
 let CreateMarksComponent = class CreateMarksComponent {
-    constructor(studentService, _router, marksService) {
+    constructor(studentService, _router, marksService, location) {
         this.studentService = studentService;
         this._router = _router;
         this.marksService = marksService;
@@ -26,6 +27,7 @@ let CreateMarksComponent = class CreateMarksComponent {
         this.student = new StudentInformation_1.StudentInformation();
         this.marks = new Mark_1.Mark();
         this.master = [];
+        this.location = location;
         if (localStorage.getItem("AddMark") != null && localStorage.getItem("AddMark") != undefined)
             this.student = JSON.parse(localStorage.getItem("AddMark"));
         this.getSubjects();
@@ -51,6 +53,7 @@ let CreateMarksComponent = class CreateMarksComponent {
 CreateMarksComponent = __decorate([
     core_1.Component({
         selector: 'create',
+        providers: [common_1.Location, { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
         template: ` <div>
         <table class="table">         	
 	      <tr>
@@ -73,7 +76,7 @@ CreateMarksComponent = __decorate([
     <button (click)="Add(student)">Create</button>
     </div>`,
     }),
-    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router, MarksService_1.MarksService])
+    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router, MarksService_1.MarksService, common_1.Location])
 ], CreateMarksComponent);
 exports.CreateMarksComponent = CreateMarksComponent;
 //# sourceMappingURL=CreateMarksComponent.js.map

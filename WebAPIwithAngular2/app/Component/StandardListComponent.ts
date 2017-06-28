@@ -9,10 +9,13 @@ import { RouterModule, Routes, ActivatedRoute, Router } from '@angular/router';
 import { StudentInformation } from '../Models/StudentInformation';
 import { StandardList } from '../Models/StandardList';
 import 'rxjs/add/operator/switchMap';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
+
 
 
 @Component({
     selector: 'stdinfo',
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     template: ` <div>
         <a href="jQueryGoogleChart.aspx">Dashboard</a>
         <a (click)="NavigateToCreate()">Create</a>
@@ -53,10 +56,11 @@ import 'rxjs/add/operator/switchMap';
 })
 export class StandardListComponent {
     visible: boolean;
-    constructor(private studentService: StudentService, private _router: Router) {
+    location: Location;
+    constructor(location: Location,private studentService: StudentService, private _router: Router) {
         this.refresh();
         //this.calcresult();
-
+        this.location = location;
         this.visible = false;
 
     }

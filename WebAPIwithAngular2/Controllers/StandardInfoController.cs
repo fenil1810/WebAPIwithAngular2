@@ -7,6 +7,8 @@ using System.Web.Http;
 
 namespace WebAPIwithAngular2.Controllers
 {
+    [AllowAnonymous]
+
     public class StandardInfoController : ApiController
     {
         // GET api/<controller>

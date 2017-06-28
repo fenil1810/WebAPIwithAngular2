@@ -9,11 +9,13 @@ import { RouterModule, Routes, ActivatedRoute, Router } from '@angular/router';
 import { StudentInformation } from '../Models/StudentInformation';
 import { StudentInfoComponent } from './StudentInfoComponent';
 import 'rxjs/add/operator/switchMap';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
 
 
 @Component({
     selector: 'update',
-    template: ` 
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
+    template: `
         <div>
         <table class="table">
          	<tr>
@@ -31,10 +33,11 @@ export class UpdateMarksComponent {
     private errorMessage: any = '';
     public student: StudentInformation = new StudentInformation();
     public marks: Mark = new Mark();
-
-    constructor(private marksService: MarksService, private _router: Router) {
+    location: Location;
+    constructor(location: Location,private marksService: MarksService, private _router: Router) {
         if (localStorage.getItem("Mark") != null && localStorage.getItem("Mark") != undefined)
             this.marks = JSON.parse(localStorage.getItem("Mark"));
+        this.location = location;
     }
     getUpdate(elem) {
         console.log(elem);

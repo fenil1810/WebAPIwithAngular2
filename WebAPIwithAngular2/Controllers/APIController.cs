@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 
 namespace WebAPIwithAngular2.Controllers
 {
+    [AllowAnonymous]
     public class APIController : ApiController
     {
 

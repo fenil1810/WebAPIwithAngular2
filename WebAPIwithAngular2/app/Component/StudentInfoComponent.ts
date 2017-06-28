@@ -7,10 +7,12 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { RouterModule, Routes, ActivatedRoute,Router } from '@angular/router';
 import { StudentInformation } from '../Models/StudentInformation';
 import 'rxjs/add/operator/switchMap';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
 
 
 @Component({
     selector: 'stuinfo',
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     template: ` <div>
         <a href="jQueryGoogleChart.aspx">Dashboard</a>
         <a (click)="NavigateToCreate()">Create</a>
@@ -39,9 +41,10 @@ import 'rxjs/add/operator/switchMap';
 
 })
 export class StudentInfoComponent {
-    
-    constructor(private studentService: StudentService,private _router:Router) {
+    location: Location;
+    constructor(private studentService: StudentService, private _router: Router, location: Location) {
         this.refresh();
+        this.location = location;
        // this.getData();
     }
     public Id: number;

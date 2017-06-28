@@ -6,10 +6,12 @@ import { RouterModule, Routes, ActivatedRoute, Router } from '@angular/router';
 import { RegisterUser } from '../Models/RegisterUser';
 import { AccountService } from '../Service/AccountService';
 import 'rxjs/add/operator/switchMap';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
 
 
 @Component({
     selector: 'register',
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     template: ` <div>
         <table class="table">
          	<tr>
@@ -35,9 +37,10 @@ import 'rxjs/add/operator/switchMap';
 
 })
 export class RegisterComponent {
-    private user :RegisterUser[]=[];
-    constructor(private accountService: AccountService, private _router: Router) {
-
+    private user: RegisterUser[] = [];
+    location: Location;
+    constructor(location: Location, private accountService: AccountService, private _router: Router) {
+        this.location = location;
     }/*
     refresh() {
         this.accountService.LoadData().then(data => {

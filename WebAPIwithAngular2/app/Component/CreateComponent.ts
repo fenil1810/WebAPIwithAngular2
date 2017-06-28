@@ -7,10 +7,12 @@ import { RouterModule, Routes, ActivatedRoute,Router } from '@angular/router';
 import { StudentInformation } from '../Models/StudentInformation';
 import { StudentInfoComponent } from './StudentInfoComponent';
 import 'rxjs/add/operator/switchMap';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
 
 
 @Component({
     selector: 'create',
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     template: ` <div>
         <table class="table">
          	<tr>
@@ -46,9 +48,10 @@ export class CreateComponent {
     private students: StudentInformation[] = [];
     private errorMessage: any = '';
     public student: StudentInformation = new StudentInformation();
-    constructor(private studentService: StudentService,private _router:Router) {
+    location: Location
+    constructor(private studentService: StudentService, private _router: Router, location: Location) {
         // this.saveStudent(student);
-      
+        this.location = location;     
     }
     refresh() {
         this.studentService.LoadData().then(data => {

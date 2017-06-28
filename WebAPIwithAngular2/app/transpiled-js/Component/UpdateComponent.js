@@ -14,8 +14,9 @@ const StudentService_1 = require("../Service/StudentService");
 const router_1 = require("@angular/router");
 const StudentInformation_1 = require("../Models/StudentInformation");
 require("rxjs/add/operator/switchMap");
+const common_1 = require("@angular/common");
 let UpdateComponent = class UpdateComponent {
-    constructor(studentService, _router) {
+    constructor(location, studentService, _router) {
         this.studentService = studentService;
         this._router = _router;
         this.students = [];
@@ -23,6 +24,7 @@ let UpdateComponent = class UpdateComponent {
         this.student = new StudentInformation_1.StudentInformation();
         if (localStorage.getItem("CurrentStudent") != null && localStorage.getItem("CurrentStudent") != undefined)
             this.student = JSON.parse(localStorage.getItem("CurrentStudent"));
+        this.location = location;
     }
     refresh() {
         this.studentService.LoadData().then(data => {
@@ -40,6 +42,7 @@ let UpdateComponent = class UpdateComponent {
 UpdateComponent = __decorate([
     core_1.Component({
         selector: 'update',
+        providers: [common_1.Location, { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
         template: ` <div>
         <table class="table">
          	<tr>
@@ -66,7 +69,7 @@ UpdateComponent = __decorate([
     <button (click)="getUpdate(student)">Update</button>
     </div>`,
     }),
-    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router])
+    __metadata("design:paramtypes", [common_1.Location, StudentService_1.StudentService, router_1.Router])
 ], UpdateComponent);
 exports.UpdateComponent = UpdateComponent;
 //# sourceMappingURL=UpdateComponent.js.map

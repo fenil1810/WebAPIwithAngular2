@@ -12,9 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const router_1 = require("@angular/router");
 //import { FormsModule } from '@angular/forms';
+const common_1 = require("@angular/common");
 let AppComponent = class AppComponent {
-    constructor(_router) {
+    constructor(_router, location) {
         this._router = _router;
+        this.location = location;
     }
     NavigateToStudent() {
         this._router.navigate(['Student']);
@@ -23,13 +25,14 @@ let AppComponent = class AppComponent {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
+        providers: [common_1.Location, { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
         template: ` <div>
     <h1>Students</h1>
     <a (click)="NavigateToStudent()">Student</a>
     <router-outlet></router-outlet>
     </div>`,
     }),
-    __metadata("design:paramtypes", [router_1.Router])
+    __metadata("design:paramtypes", [router_1.Router, common_1.Location])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

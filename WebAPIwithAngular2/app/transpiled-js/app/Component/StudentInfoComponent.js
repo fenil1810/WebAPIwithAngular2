@@ -14,13 +14,14 @@ const StudentService_1 = require("../Service/StudentService");
 const router_1 = require("@angular/router");
 require("rxjs/add/operator/switchMap");
 let StudentInfoComponent = class StudentInfoComponent {
-    constructor(studentService, _router) {
+    constructor(studentService, _router, location) {
         this.studentService = studentService;
         this._router = _router;
         this.students = [];
         this.errorMessage = '';
         this.marks = [];
         this.refresh();
+        this.location = location;
         // this.getData();
     }
     getMarks(stud) {
@@ -85,7 +86,7 @@ StudentInfoComponent = __decorate([
         </table>
     </div>`,
     }),
-    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router])
+    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router, Location])
 ], StudentInfoComponent);
 exports.StudentInfoComponent = StudentInfoComponent;
 //# sourceMappingURL=StudentInfoComponent.js.map

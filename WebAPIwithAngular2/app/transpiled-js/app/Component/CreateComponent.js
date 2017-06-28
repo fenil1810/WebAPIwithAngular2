@@ -14,14 +14,16 @@ const StudentService_1 = require("../Service/StudentService");
 const router_1 = require("@angular/router");
 const StudentInformation_1 = require("../Models/StudentInformation");
 require("rxjs/add/operator/switchMap");
+const common_1 = require("@angular/common");
 let CreateComponent = class CreateComponent {
-    constructor(studentService, _router) {
-        // this.saveStudent(student);
+    constructor(studentService, _router, location) {
         this.studentService = studentService;
         this._router = _router;
         this.students = [];
         this.errorMessage = '';
         this.student = new StudentInformation_1.StudentInformation();
+        // this.saveStudent(student);
+        this.location = location;
     }
     refresh() {
         this.studentService.LoadData().then(data => {
@@ -39,6 +41,7 @@ let CreateComponent = class CreateComponent {
 CreateComponent = __decorate([
     core_1.Component({
         selector: 'create',
+        providers: [common_1.Location, { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
         template: ` <div>
         <table class="table">
          	<tr>
@@ -67,7 +70,7 @@ CreateComponent = __decorate([
     <button (click)="Add(student)">Create</button>
     </div>`,
     }),
-    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router])
+    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router, common_1.Location])
 ], CreateComponent);
 exports.CreateComponent = CreateComponent;
 //# sourceMappingURL=CreateComponent.js.map

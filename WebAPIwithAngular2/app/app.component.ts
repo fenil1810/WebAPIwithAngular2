@@ -8,23 +8,25 @@ import { StudentInformation } from './Models/StudentInformation';
 import { StudentService } from './Service/StudentService';
 import { ModalComponent } from '../node_modules/ng2-bs3-modal/ng2-bs3-modal';
 //import { FormsModule } from '@angular/forms';
+import { HashLocationStrategy, Location, LocationStrategy } from '@angular/common';
 
 
 @Component({
     selector: 'my-app',
+    providers: [Location, { provide: LocationStrategy, useClass: HashLocationStrategy }],
     template: ` <div>
     <h1>Students</h1>
     <a (click)="NavigateToStudent()">Student</a>
     <router-outlet></router-outlet>
     </div>`,
-
 })
 export class AppComponent {
-
-    constructor(private _router:Router){}
+    location: Location;
+    constructor(private _router: Router, location: Location) { this.location = location;}
     public NavigateToStudent()
     {
         this._router.navigate(['Student']);
+        
     }
     
 }

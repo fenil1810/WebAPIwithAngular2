@@ -13,14 +13,16 @@ const core_1 = require("@angular/core");
 const StudentService_1 = require("../Service/StudentService");
 const router_1 = require("@angular/router");
 require("rxjs/add/operator/switchMap");
+const common_1 = require("@angular/common");
 let StudentInfoComponent = class StudentInfoComponent {
-    constructor(studentService, _router) {
+    constructor(studentService, _router, location) {
         this.studentService = studentService;
         this._router = _router;
         this.students = [];
         this.errorMessage = '';
         this.marks = [];
         this.refresh();
+        this.location = location;
         // this.getData();
     }
     getMarks(stud) {
@@ -59,6 +61,7 @@ let StudentInfoComponent = class StudentInfoComponent {
 StudentInfoComponent = __decorate([
     core_1.Component({
         selector: 'stuinfo',
+        providers: [common_1.Location, { provide: common_1.LocationStrategy, useClass: common_1.HashLocationStrategy }],
         template: ` <div>
         <a href="jQueryGoogleChart.aspx">Dashboard</a>
         <a (click)="NavigateToCreate()">Create</a>
@@ -85,7 +88,7 @@ StudentInfoComponent = __decorate([
         </table>
     </div>`,
     }),
-    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router])
+    __metadata("design:paramtypes", [StudentService_1.StudentService, router_1.Router, common_1.Location])
 ], StudentInfoComponent);
 exports.StudentInfoComponent = StudentInfoComponent;
 //# sourceMappingURL=StudentInfoComponent.js.map
